@@ -1,0 +1,123 @@
+
+<!-- Create User -->
+<h2>Create User</h2>
+
+<form [formGroup]="userFormGroup" (ngSubmit)="addUser()" novalidate>
+  <div class="row">
+ 
+    <div class="col">
+      <input
+        class="form-control"
+        type="text"
+        formControlName="name"
+        placeholder="Enter Name"
+      />
+    </div>
+    <div class="col">
+      <input
+        class="form-control"
+        type="number"
+        formControlName="age"
+        placeholder="Enter Age"
+        min="1"
+        max="99"
+      />
+    </div>
+    <div class="col">
+      <select class="form-select" aria-label="Default select example" formControlName="gender" > 
+          <option value="Male"  selected>Male</option>
+          <option value="Female" >Female</option>
+          <option value="Others" >Others</option>
+        </select>
+    </div>
+
+    <div class="col">
+      <button class="btn btn-info">Add User</button>
+    </div>
+  </div>
+</form>
+<br /><br />
+
+<div align="center"><h1>List of Users</h1></div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#Id</th>
+      <th scope="col">Name</th>
+      <th scope="col">Age</th>
+      <th scope="col">Gender</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let u of users">
+      <td>
+        {{ u.id }}
+      </td>
+      <td>
+        {{ u.name }}
+      </td>
+      <td>
+        {{ u.age }}
+      </td>
+      <td>
+        {{ u.gender }}
+      </td>
+      <td>
+         <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#editUser">Edit</button>
+          <button type="button" class="btn btn-outline-danger"  (click)="deleteUser(u.id)">Delete</button>
+        
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<br /><br />
+
+<!-- Edit Modal -->
+<div class="modal fade" id="editUser" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Edit User</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <form [formGroup]="userFormGroup">
+          <div class="mb-3">
+            <label for="userID" class="form-label">ID</label>
+            <input type="number" formControlName="id" class="form-control" id="userID" required [(ngModel)]="idtoUpdate" placeholder="{{user.id}}">
+          </div>
+
+          <div class="mb-3">
+              <label for="userName" class="form-label">Name</label>
+              <input type="text" formControlName="name" class="form-control" id="userName" required  [(ngModel)]="nametoUpdate" placeholder="{{user.name}}">
+          </div>
+          
+          <div class="mb-3">
+              <label for="userAge" class="form-label">Age</label>
+              <input type="number" formControlName="age" class="form-control" id="userAge" required [(ngModel)]="agetoUpdate" placeholder="{{user.age}}">
+          </div>
+          
+          <div class="mb-3">
+            <label for="userGender" class="form-label">Gender</label>
+              <select class="form-select" class="form-control" formControlName="gender" aria-label="Default select example" [(ngModel)]="gendertoUpdate">
+                  <option value="Male" selected>Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Others">Others</option>
+                </select>
+          </div>
+      </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="updateUser()" data-bs-dismiss="modal">Update</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<router-outlet></router-outlet>
